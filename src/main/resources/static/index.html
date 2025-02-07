@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Finance Cybersecurity</title>
+</head>
+<body>
+    <h1>Task Assignment Portal</h1>
+    <form id="taskForm" action="/tasks/assign" method="post">
+        <label for="taskId">Task ID:</label>
+        <input type="text" id="taskId" name="taskId" required><br><br>
+        <label for="country">Country:</label>
+        <select id="country" name="countryCode">
+            <option value="India" selected>India</option>
+        </select><br><br>
+        <button type="submit">Assign Task</button>
+    </form>
+
+    <h2>Investigator Status</h2>
+    <button onclick="fetchStatuses()">Refresh Status</button>
+    <ul id="statusList"></ul>
+
+    <script>
+        function fetchStatuses() {
+            fetch('/tasks/investigator-status')
+                .then(response => response.json())
+                .then(data => {
+                    const statusList = document.getElementById('statusList');
+                    statusList.innerHTML = '';
+                    for (const [investigator, status] of Object.entries(data)) {
+                        const li = document.createElement('li');
+                        li.textContent = `${investigator}: ${status}`;
+                        statusList.appendChild(li);
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
